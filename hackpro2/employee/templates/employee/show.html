@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Records</title>
+     {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+<style>
+* {
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+}
+.button {
+  border: none;
+  width: 360px;
+  height: 99px;
+  margin-top: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: #020202ee;
+  color: rgb(34, 36, 35);
+  text-transform: uppercase;
+  font-family: cursive;
+  font-size: 35px;
+  letter-spacing: 2px;
+  transition: all 0.5s;
+  position: relative;
+  overflow: hidden; }
+  .button span {
+    position: relative;
+    z-index: 2; }
+  .button:before, button:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: rgba(52, 152, 253, 0.25);
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    -webkit-transform: translate(-100%, 0);
+    transform: translate(-100%, 0);
+    -webkit-transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
+    transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1); }
+  .button:after {
+    -webkit-transition-delay: 0.2s;
+    transition-delay: 0.2s; }
+  .button:hover:before, button:hover:after {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0); }
+
+
+body, html {
+	height: 100%;
+	font-family: sans-serif;
+}
+a {
+	margin: 0px;
+	transition: all 0.4s;
+	-webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+}
+
+a:focus {
+	outline: none !important;
+}
+
+a:hover {
+	text-decoration: none;
+}
+h1,h2,h3,h4,h5,h6 {margin: 0px;}
+
+p {margin: 0px;}
+
+ul, li {
+	margin: 0px;
+	list-style-type: none;
+}
+input {
+  display: block;
+	outline: none;
+	border: none !important;
+}
+
+textarea {
+  display: block;
+  outline: none;
+}
+
+textarea:focus, input:focus {
+  border-color: transparent !important;
+}
+
+iframe {
+	border: none !important;
+}
+
+.limiter {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.container-table100 {
+  width: 100%;
+  min-height: 100vh;
+  background:  #9ebee7; ;
+    display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 33px 30px;
+}
+
+.wrap-table100 {
+  width: 1000px;
+}
+table {
+  width: 100%;
+  background-color: #fff;
+}
+
+th, td {
+  font-weight: unset;
+  padding-right: 10px;
+}
+
+.column100 {
+  width: 120px;
+  padding-left: 25px;
+}
+
+.column100.column1 {
+  width: 265px;
+  padding-left: 42px;
+}
+
+.row100.head th {
+  padding-top: 24px;
+  padding-bottom: 20px;
+}
+
+.row100 td {
+  padding-top: 18px;
+  padding-bottom: 14px;
+}
+.table100.ver1 td {
+  font-family: Georgia;
+  font-size: 30px;
+  color: #808080;
+  line-height: 1.4;
+}
+
+.table100.ver1 th {
+  font-family: Cambria ;
+  font-size: 22px;
+  color: #fff;
+  line-height: 1.4;
+  text-transform: uppercase;
+
+  background-color: #4d3d7c;
+}
+
+.table100.ver1 .row100:hover {
+  background-color: #f2f2f2;
+}
+
+.table100.ver1 .hov-column-ver1 {
+  background-color: #f2f2f2;
+}
+
+.table100.ver1 .hov-column-head-ver1 {
+  background-color: #484848 !important;
+}
+
+.table100.ver1 .row100 td:hover {
+  background-color: #bedaff;
+  color: #fff;
+}
+
+
+</style>
+</head>
+<body>
+<div class="limiter">
+  <div class="container-table100">
+    <div class="wrap-table100">
+         <div class="table100 ver1 m-b-110">
+             <table data-vertable="ver1" >
+               <thead >
+                      <tr class="row100 head">
+                              <th class="column100 column2" data-column="column2">Employee Name</th>
+                              <th class="column100 column3" data-column="column3">Employee Department</th>
+                              <th class="column100 column4" data-column="column4">Employee Code</th>
+                              <th class="column100 column5" data-column="column5" colspan="2">Actions</th>
+                       </tr>
+               </thead>
+               <tbody>
+                  {% for employee in employees %}
+                          <tr class="row100">
+                                  <td class="column100 column1" data-column="column1">{{ employee.ename }}</td>
+                                  <td class="column100 column2" data-column="column2">{{ employee.edep }}</td>
+                                  <td class="column100 column3" data-column="column3">{{ employee.ecode }}</td>
+                                  <td class="column100 column4" data-column="column4"><a href="/edit/{{ employee.id }}"><span>Edit</span></a></td>
+                                  <td class="column100 column4" data-column="column4"><a href="/delete/{{ employee.id }}">Delete</a></td>
+                            </tr>
+                        {% endfor %}
+               </tbody>
+           </table>
+             <br>
+         </div>
+
+         <center > <a href="/emp" class="button">Add New Record</a></center>
+
+
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
